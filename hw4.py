@@ -144,7 +144,12 @@ class Dining_Hall:
             to the existing value.  Otherwise set the value for the food
             in the inventory dictionary.
         '''
-        pass
+        self.food = food
+        self.quantity = quantity
+        if self.food in self.inventory:
+            self.inventory[self.food] += self.quantity
+        else:
+            self.inventory[self.food] = self.quantity
 
     def fill_order(self, food_list):
         ''' Checks that there is enough food for an order and if not returns False,
@@ -152,7 +157,15 @@ class Dining_Hall:
             and returns True.
         '''
 
-        pass
+        for food in food_list:
+            if food in self.inventory:
+                if self.inventory[food] >= 1:
+                    self.inventory[food] -= 1
+                else:
+                    return False
+            else:
+                return False
+        return True
 
 
 class TestAllMethods(unittest.TestCase):
