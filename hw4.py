@@ -29,11 +29,11 @@ class Student:
             print("Already in a dining hall")
             return False
         else:
-            if dining_hall.can_enter() == False:
+            if dining_hall.can_enter(self) == False:
                 print ("Too full- try later")
                 return False
             else:
-                self.location == dining_hall
+                self.location = dining_hall
                 self.location.student_list.append(self)
                 return True
 
@@ -282,18 +282,20 @@ class TestAllMethods(unittest.TestCase):
         res1 = alice.enter_dining_hall(north_quad)
         res2 = alice.enter_dining_hall(south_quad)
 
-        self.assertEqual(res2,True)
-        self.assertEqual(alice.location,south_quad)
-        self.assertEqual(south_quad.inside(alice),True)
+        self.assertEqual(res1,True)
+        self.assertEqual(res2,False)
+        print("alice location: " + str(alice.location))
+        self.assertEqual(alice.location,north_quad)
+        self.assertEqual(south_quad.inside(alice),False)
 
         out1 = alice.leave_dining_hall()
 
         # Case 3: attempt to leave while not in any dining hall
         out2 = alice.leave_dining_hall()
 
-        self.assertEqual(out2,True)
-        self.assertEqual(alice.location,south_quad)
-        self.assertEqual(north_quad.inside(alice),True)
+        self.assertEqual(out2,False)
+        self.assertEqual(alice.location, None)
+        self.assertEqual(north_quad.inside(alice),False)
 
     # Check the methods related to inventory
     def test_add_inventory(self):
