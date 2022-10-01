@@ -2,10 +2,11 @@
 # Your name: Jack Sambursky
 # Your student id: 54750630
 # Your email: jsamburs@umich.edu
-# Who you worked with on this homework:
+# Who you worked with on this homework: Jason Kemp, Abhinav Tadikonda
 
 from sys import builtin_module_names
 import unittest
+import random
 
 class Student:
     ''' respresents a student who can order food at a dining hall '''
@@ -167,6 +168,12 @@ class Dining_Hall:
                 return False
         return True
 
+    def lottery(self):
+        if (len(self.student_list) == 0):
+            return True
+        randStudent = random.randint(0, len(self.student_list) - 1)
+        Student.buy_blue_bucks(self.student_list[randStudent], 10)
+
 
 class TestAllMethods(unittest.TestCase):
     ''' Here are all the test cases:
@@ -298,6 +305,28 @@ class TestAllMethods(unittest.TestCase):
         self.assertEqual(north_quad.inside(alice),False)
 
     # Check the methods related to inventory
+
+    def test_lottery(self):
+        alice = Student(name='Alice',blue_bucks =50)
+        tom = Student(name='Tom',blue_bucks=0)
+        john = Student(name='John',blue_bucks=100)
+        north_quad = Dining_Hall(name='North Quad', capacity=3)
+
+        assert(north_quad.lottery())
+
+        alice.enter_dining_hall(north_quad)
+        tom.enter_dining_hall(north_quad)
+        john.enter_dining_hall(north_quad)
+
+        north_quad.lottery()
+
+        if(alice.blue_bucks == 60 or tom.blue_bucks == 10 or john.blue_bucks == 110):
+            return True
+        else:
+            return False
+
+
+
     def test_add_inventory(self):
 
         south_quad = Dining_Hall(name='South Quad', capacity=5)
@@ -365,6 +394,7 @@ class TestAllMethods(unittest.TestCase):
         self.assertEqual(res, False)
 
         alice.leave_dining_hall()
+
 
 
 def main():
